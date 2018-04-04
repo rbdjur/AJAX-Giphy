@@ -1,0 +1,9 @@
+#button-view{
+    border: 1px solid purple;
+    height: 100px;
+}
+
+#gif-view{
+    border: 1px solid red;
+    height: 100px;
+}
