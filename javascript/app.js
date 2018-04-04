@@ -9,14 +9,11 @@ var gifHoldingDiv = $("#gif-view");
 $("#button").on("click", function searchbox() {
   // prevent submit button from submitting when clicked.
   event.preventDefault();
-  // grab text from input box ... should it be $(this).val();  ?
+  // grab text from input box
   var searchTextBox = $("#searchbox").val();
   // Create our URL
-  // var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + searchTextBox + "&api_key=OYtCkDFHdaDGQuuEfAFwRF0wbj7eeWXD";
+  // var queryURL = 
   var queryURL2 = "http://api.giphy.com/v1/gifs/search?q=" + searchTextBox + "&api_key=OYtCkDFHdaDGQuuEfAFwRF0wbj7eeWXD&limit=1";
-  // random thing I found that might be important
-  // var xhr = $.get ("http://api.giphy.com/v1/gifs/search?q=" + searchTextBox + "&api_key=OYtCkDFHdaDGQuuEfAFwRF0wbj7eeWXD&limit=1");
-  // xhr.done(function(data) { console.log("success got data", data); });
 
   // AJAX code to Perform GET requests to the GIPHY API and logging the responses to the console
   $.ajax({
@@ -25,8 +22,6 @@ $("#button").on("click", function searchbox() {
     // );
   })
     .then(function (response) {
-      // Temporarily mute this command
-      //  $("#gif-view").html(JSON.stringify(response));
       console.log(response);
       // declare vari topics inside the function (response)
       var topics = ["Ice Cream", "Sushi", "Pizza"];
@@ -39,26 +34,18 @@ $("#button").on("click", function searchbox() {
       // set var imageURL to the url of the strings' URL
       var imageURL = response.data["0"].images.original;
       console.log("gif url should appear", response.data["0"].images.original);
-      // The code does not work when trying to call any numbers above 0.  Also, the new value pushed into the array is referred to as 0 opposed to Ice cream as 0 -- should I enter a loop before line 70? 
-
       // create a div with class
       var gifDiv = $("<div class='here'>")
-      // var gifHoldingDiv = $("#gif-view");
 
       // set the entire gif-view div with <img> tags
       var gifItem = $("<img>");
       console.log("set the give div with <img> tags");
       // now that gifDiv is set to <img>, set the attributes of the variable to link the src url and alt name. 
-      // gifDiv.attr("src", imageURL);
-      // gifItem.attr("src", imageURL);
       console.log('this is data 0 image', response.data["0"].images.original.url)
       gifItem.attr("src", response.data["0"].images.original.url);
       console.log("attach src to the div and put them in each src");
       gifItem.attr("alt", "food");
-      // gifDiv.attr("alt", "food");
       console.log("give alt name food");
-      // var gif = gifDiv.attr("src", imageURL);
-      // gifHoldingDiv.prepend(gif);
       gifDiv.append(gifItem);
       $("#gif-view").prepend(gifDiv);
       // $("#gif-view").prepend(gifItem);
@@ -84,21 +71,46 @@ function renderButtons() {
 
     // this function inside the renderButtons registers a click event for the Ice Cream, Sushi, and Pizza buttons
     displayButton.on("click", function () {
+      console.log($(this).text());
+      // define each variable for Ice Cream, Sushi, Pizza
+      // var iceCream = "Ice Cream";
+      // var sushi = "Sushi";
+      // var pizza = "Pizza";
+      // // define the gif api to call on and make Ice Cream, sushi, pizza requests
+      // var queryURLiceCream = "http://api.giphy.com/v1/gifs/search?q=" + iceCream + "&api_key=OYtCkDFHdaDGQuuEfAFwRF0wbj7eeWXD&limit=1";
+      // var queryURLsushi = "http://api.giphy.com/v1/gifs/search?q=" + sushi + "&api_key=OYtCkDFHdaDGQuuEfAFwRF0wbj7eeWXD&limit=1";
+      // var queryURLpizza = "http://api.giphy.com/v1/gifs/search?q=" + pizza + "&api_key=OYtCkDFHdaDGQuuEfAFwRF0wbj7eeWXD&limit=1";
+
       var topics = ["Ice Cream", "Sushi", "Pizza"];
-      var queryURL2 = "http://api.giphy.com/v1/gifs/search?q=" + topics + "&api_key=OYtCkDFHdaDGQuuEfAFwRF0wbj7eeWXD&limit=1";
+      var queryURLOg = "http://api.giphy.com/v1/gifs/search?q=" + topics["0"] + "&api_key=OYtCkDFHdaDGQuuEfAFwRF0wbj7eeWXD&limit=1";
       console.log("hey i got clicked lol");
-      for ( var i = 0; i < topics.length; i++) {
-        console.log("API website");
         $.ajax({
-          url: queryURL2,
+          url: queryURLOg,
           method: "GET"
+        })
+        .then (function (response) {
+          console.log(response);
+          var topics = ["Ice Cream", "Sushi", "Pizza"];
+          var imageURLgif = response.data["0"].images.original.url;
+          console.log(imageURLgif); 
+
+          // create var to begin creation of img tag, src, and link url, then prepend to gif area.
+          var iceCreamItem = $("<img>");
+          iceCreamItem.attr("src", response.data["0"].images.original.url);
+          iceCreamItem.attr("alt", "food");
+          $("#gif-view").prepend(iceCreamItem);
+
+
+ })
 
       // append the "Ice Cream", "Sushi", and "Pizza" button to the gif-view div to show up , refer to code above for that. 
-        })
-      }
+
+
+        // })
+      // }
     })
   }
-}
+};
 
 // Create function where the "Click me" button is active on click This function is the event where one buton is clicked
 $("#button").on("click", function (event) {
