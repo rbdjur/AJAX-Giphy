@@ -46,6 +46,7 @@ $("#button").on("click", function searchbox() {
       console.log("attach src to the div and put them in each src");
       gifItem.attr("alt", "food");
       console.log("give alt name food");
+      gifItem.attr("class", "things");
       gifDiv.append(gifItem);
       $("#gif-view").prepend(gifDiv);
       // $("#gif-view").prepend(gifItem);
@@ -70,19 +71,10 @@ function renderButtons() {
     $("#button-view").append(displayButton);
 
     // this function inside the renderButtons registers a click event for the Ice Cream, Sushi, and Pizza buttons
-    displayButton.on("click", function () {
+    displayButton.on("click", function icecream () {
       console.log($(this).text());
-      // define each variable for Ice Cream, Sushi, Pizza
-      // var iceCream = "Ice Cream";
-      // var sushi = "Sushi";
-      // var pizza = "Pizza";
-      // // define the gif api to call on and make Ice Cream, sushi, pizza requests
-      // var queryURLiceCream = "http://api.giphy.com/v1/gifs/search?q=" + iceCream + "&api_key=OYtCkDFHdaDGQuuEfAFwRF0wbj7eeWXD&limit=1";
-      // var queryURLsushi = "http://api.giphy.com/v1/gifs/search?q=" + sushi + "&api_key=OYtCkDFHdaDGQuuEfAFwRF0wbj7eeWXD&limit=1";
-      // var queryURLpizza = "http://api.giphy.com/v1/gifs/search?q=" + pizza + "&api_key=OYtCkDFHdaDGQuuEfAFwRF0wbj7eeWXD&limit=1";
-
-      var topics = ["Ice Cream", "Sushi", "Pizza"];
-      var queryURLOg = "http://api.giphy.com/v1/gifs/search?q=" + topics["0"] + "&api_key=OYtCkDFHdaDGQuuEfAFwRF0wbj7eeWXD&limit=1";
+      var givenTopics = ["Ice Cream", "Sushi", "Pizza"];
+      var queryURLOg = "http://api.giphy.com/v1/gifs/search?q=" + givenTopics["0"] + "&api_key=OYtCkDFHdaDGQuuEfAFwRF0wbj7eeWXD&limit=1";
       console.log("hey i got clicked lol");
         $.ajax({
           url: queryURLOg,
@@ -90,7 +82,7 @@ function renderButtons() {
         })
         .then (function (response) {
           console.log(response);
-          var topics = ["Ice Cream", "Sushi", "Pizza"];
+          // var topics = ["Ice Cream", "Sushi", "Pizza"];
           var imageURLgif = response.data["0"].images.original.url;
           console.log(imageURLgif); 
 
@@ -99,15 +91,31 @@ function renderButtons() {
           iceCreamItem.attr("src", response.data["0"].images.original.url);
           iceCreamItem.attr("alt", "food");
           $("#gif-view").prepend(iceCreamItem);
-
-
  })
 
-      // append the "Ice Cream", "Sushi", and "Pizza" button to the gif-view div to show up , refer to code above for that. 
-
-
-        // })
-      // }
+ // copied code above and pasted below
+ displayButton.on("click", function () {
+  console.log($(this).text());
+      // need to be able to loop through all of these items in the array, right now only ice cream is popping up, not sushi. 
+      var givenTopics = ["Ice Cream", "Sushi", "Pizza"];
+      var queryURLOg = "http://api.giphy.com/v1/gifs/search?q=" + givenTopics["1"] + "&api_key=OYtCkDFHdaDGQuuEfAFwRF0wbj7eeWXD&limit=1";
+      console.log("hey i got clicked lol");
+        $.ajax({
+          url: queryURLOg,
+          method: "GET"
+        })
+        .then (function (response) {
+          console.log(response);
+          // var topics = ["Ice Cream", "Sushi", "Pizza"];
+          var imageURLgif = response.data["1"].images.original.url;
+          console.log(imageURLgif); 
+          // create var to begin creation of img tag, src, and link url, then prepend to gif area.
+          var iceCreamItem = $("<img>");
+          iceCreamItem.attr("src", response.data["1"].images.original.url);
+          iceCreamItem.attr("alt", "food");
+          $("#gif-view").prepend(iceCreamItem);
+ })
+})
     })
   }
 };
@@ -125,6 +133,17 @@ $("#button").on("click", function (event) {
 
 renderButtons();
 
+// // Stop the Gif
+// $(".things").on("click", function () { 
+//   var state = $(this).attr("data-state");
+//   if (state === "still") {
+//     $(this).attr("src", response.data["0"].url, $(this).attr("data-animate"));
+//     $(this).attr("data-state", "animate");
+//   } else {
+//     $(this).attr("src", response.data["0"].images.fixed_height_still.url, $(this).attr("data-still"));
+//     $(this).attr("data-state", "still");
+//   }
+// })
 
 
 
